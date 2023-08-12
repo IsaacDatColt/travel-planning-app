@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
+
+
 
 
 const Login = () => {
+    const { setUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
@@ -20,7 +24,8 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/users/login', formData);
+            const response = await axios.post('http://localhost:8000/users/login', formData);
+            setUser(response.data.user);
             console.log(response.data);
 
             // Redirect to home page
@@ -29,6 +34,7 @@ const Login = () => {
             console.error("Login error", error.response.data);
         }
     };
+
 
     return (
         <div>
