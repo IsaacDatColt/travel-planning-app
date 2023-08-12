@@ -1,6 +1,6 @@
 import React from 'react';
-import { AuthProvider } from './AuthContext';
-import Routes from './routes';
+import { AuthProvider } from './components/AuthContext';
+import Routes from './router';
 import logo from './logo.svg';
 import './App.css';
 

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -19,6 +22,9 @@ const Login = () => {
         try {
             const response = await axios.post('/users/login', formData);
             console.log(response.data);
+
+            // Redirect to home page
+            navigate('/');
         } catch (error) {
             console.error("Login error", error.response.data);
         }
