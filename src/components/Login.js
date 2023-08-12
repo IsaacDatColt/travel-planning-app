@@ -27,9 +27,10 @@ const Login = () => {
             const response = await axios.post('http://localhost:8000/users/login', formData);
             setUser(response.data.user);
             console.log(response.data);
+            // console.log(response.data.user);
 
             // Redirect to home page
-            navigate('/');
+            navigate('/dashboard');
         } catch (error) {
             console.error("Login error", error.response.data);
         }
