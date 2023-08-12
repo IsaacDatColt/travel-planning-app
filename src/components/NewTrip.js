@@ -21,7 +21,7 @@ const NewTrip = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://your-api-endpoint/trips', trip);
+            const response = await axios.post('http://localhost:8000/trips', trip);
 
             if (response.status === 201) {
                 console.log('Trip created successfully!');
