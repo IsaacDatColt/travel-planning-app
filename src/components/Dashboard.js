@@ -4,6 +4,7 @@ import { AuthContext } from './AuthContext';
 import '../dashboard.css';
 import WeatherWidget from './WeatherWidget';
 import '../App.css';
+import Map from './Map';
 
 
 
@@ -21,18 +22,21 @@ const Dashboard = () => {
             </header>
 
             <div className="columns">
-                <div className="column is-one-quarter">
+                <div className="column is-one-third">
                     <WeatherWidget />
                 </div>
+                <div className="column map-container">
+                    <Map center={{ lat: 37.7749, lng: -122.4194 }} zoom={10} />
+                </div>
 
-                <div className="column">
+                <div className="column is-one-third">
                     <main>
                         <h2>Welcome back, {user.username}! Ready for your next adventure?</h2>
 
                         {/* Google Maps integration goes here */}
 
                         <section className="upcoming-trips">
-                            {/* Placeholder for upcoming trips */}
+                            {/* upcoming trips */}
                         </section>
 
                         <div>
@@ -46,13 +50,7 @@ const Dashboard = () => {
                         </footer>
                     </main>
                 </div>
-
-                <div className="column is-one-quarter">
-                    {/* AttractionsList goes here */}
-                </div>
             </div>
-
-            {/* Sidebar - Might be removed or adjusted based on new layout */}
             <aside>
                 <Link to="/my-trips">My Trips</Link>
                 <Link to="/settings">Settings</Link>
@@ -60,5 +58,6 @@ const Dashboard = () => {
         </div>
     );
 };
+
 
 export default Dashboard;

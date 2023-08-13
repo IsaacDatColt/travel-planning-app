@@ -3,6 +3,7 @@ import axios from 'axios';
 import Autosuggest from 'react-autosuggest';
 
 
+
 const WeatherWidget = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [forecastData, setForecastData] = useState(null);
