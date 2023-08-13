@@ -1,44 +1,125 @@
-.App {
+.weatherCard {
+  background-color: #a7cbf3;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.weatherWidget {
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.weatherHeading {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.weatherIcon {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.weatherDescription {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.weatherTemp {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.weatherInfo {
+  font-size: 14px;
+  color: #666;
+}
+
+.react-autosuggest__input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+}
+
+.react-autosuggest__suggestions-container--open {
+  display: block;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.react-autosuggest__suggestion {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  background-color: #f0f0f0;
+}
+
+/* Current day styles */
+.currentDay {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.currentDay img.weatherIcon {
+  width: 100px;
+  height: 100px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+/* Forecast styles */
+.forecastContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
 }
 
-.home-page {
+.forecastDay {
+  width: 15%;
+  background-color: #e0f0ff;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
-  padding: 50px;
+  font-size: 12px;
+}
+
+.forecastDay img {
+  width: 30px;
+  height: 30px;
+}
+
+.column.forecastContainer {
+  padding: 20px;
+  background-color: #a7cbf3;
+}
+
+@media (max-width: 768px) {
+  .forecastContainer {
+    flex-direction: column;
+  }
+
+  .forecastDay {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }
