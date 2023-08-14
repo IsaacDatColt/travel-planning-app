@@ -1,4 +1,5 @@
 /* global google */
+
 import React, { useState, useRef, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 
@@ -7,9 +8,14 @@ const Map = ({ center: initialCenter, zoom: initialZoom }) => {
     const [zoom] = useState(initialZoom || 10);
     const [directions, setDirections] = useState(null);
     const [travelTime, setTravelTime] = useState({});
+    const [places, setPlaces] = useState([]);
     const startInputRef = useRef(null);
     const endInputRef = useRef(null);
     const googleMapRef = useRef(null);
+    const [destination, setDestination] = useState(null);
+    const directionsRendererRef = useRef(null);
+
+
 
     const API_KEY = 'AIzaSyCMQmoeZXYLyymmoxqXQeQDfPBk0gs03fk';
 
@@ -18,19 +24,45 @@ const Map = ({ center: initialCenter, zoom: initialZoom }) => {
             if (window.google && window.google.maps && window.google.maps.places) {
                 new google.maps.places.Autocomplete(startInputRef.current);
                 new google.maps.places.Autocomplete(endInputRef.current);
-
-                if (directions && googleMapRef.current) {
-                    const directionsRenderer = new google.maps.DirectionsRenderer();
-                    directionsRenderer.setMap(googleMapRef.current.map_);
-                    directionsRenderer.setDirections(directions);
-                }
             }
         };
 
         const timeoutId = setTimeout(initAutocomplete, 1000);
 
         return () => clearTimeout(timeoutId);
+    }, []);
+
+    useEffect(() => {
+        if (!window.google || !destination || !googleMapRef.current) return;
+
+        const placesService = new google.maps.places.PlacesService(googleMapRef.current.map_);
+        placesService.nearbySearch(
+            {
+                location: new google.maps.LatLng(destination.lat, destination.lng),
+                radius: '5000',
+                type: ['tourist_attraction'],
+            },
+            (results, status) => {
+                if (status === 'OK') {
+                    setPlaces(results);
+                } else {
+                    console.error(`Error fetching places: ${status}`);
+                }
+            }
+        );
+    }, [destination]);
+
+    useEffect(() => {
+        if (!directions || !googleMapRef.current) return;
+
+        if (!directionsRendererRef.current) {
+            directionsRendererRef.current = new google.maps.DirectionsRenderer();
+            directionsRendererRef.current.setMap(googleMapRef.current.map_);
+        }
+
+        directionsRendererRef.current.setDirections(directions);
     }, [directions]);
+
 
     const reset = () => {
         setDirections(null);
@@ -52,12 +84,21 @@ const Map = ({ center: initialCenter, zoom: initialZoom }) => {
                     setDirections(response);
                     const duration = response.routes[0].legs[0].duration.text;
                     setTravelTime((prevTime) => ({ ...prevTime, [travelMode]: duration }));
+
+                    // Save destination coordinates
+                    const destinationLatLng = response.routes[0].legs[0].end_location;
+                    setDestination({
+                        lat: destinationLatLng.lat(),
+                        lng: destinationLatLng.lng(),
+                    });
                 } else {
                     console.error(`Error fetching directions: ${status}`);
                 }
             }
         );
     };
+
+
 
     return (
         <div style={{ height: '500px', width: '100%' }}>
@@ -82,6 +123,14 @@ const Map = ({ center: initialCenter, zoom: initialZoom }) => {
             >
                 {/* You can add markers and other components here */}
             </GoogleMapReact>
+            <div>
+                <h3>Things to Do:</h3>
+                <ul>
+                    {places.map((place) => (
+                        <li key={place.place_id}>{place.name}</li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };
